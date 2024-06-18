@@ -87,7 +87,7 @@ export class MazeGenerator {
             }
         }
     }
-    convertMaze(jsonData) {
+    generateMap(jsonData) {
         const gridSize = this.gridSize
         const gridScale = (gridSize * 4) + 1
         const groundLayer = jsonData.layers[0]
@@ -138,7 +138,7 @@ export class MazeGenerator {
                             possibleStartIndexes.push(gridScale*4*row + 2 + 4*col + gridScale*2)
                         }
                     } else{
-                        if (row === (gridScale - 1) / 2 && row === (gridScale - 1) / 2){
+                        if (row === (gridSize - 1) / 2 && col === (gridSize - 1) / 2){
                             possibleStartIndexes.push(gridScale*4*row + 2 + 4*col + gridScale*2)
                         }
                     }
@@ -146,10 +146,11 @@ export class MazeGenerator {
             }
         }
         //выбор рандомных из массивов точек и расстановка их в массиве слоя земли
-        groundTileData[possibleStartIndexes[Math.floor(Math.random() * possibleStartIndexes.length)]] = 23
-        console.log(possibleStartIndexes)
-        groundTileData[possibleFinishIndexes[Math.floor(Math.random() * possibleFinishIndexes.length)]] = 29
+        const startIndex = possibleStartIndexes[Math.floor(Math.random() * possibleStartIndexes.length)]
+        const finishIndex = possibleFinishIndexes[Math.floor(Math.random() * possibleFinishIndexes.length)]
 
+        groundTileData[startIndex] = 23
+        groundTileData[finishIndex] = 29
         //меняет размеры карты будущего json`a
         jsonData.height = gridScale
         jsonData.width = gridScale
@@ -161,30 +162,32 @@ export class MazeGenerator {
         wallLayer.data = wallTileData
         groundLayer.data = groundTileData
 
-        return jsonData
+        return {jsonData, 
+            startIndex, 
+            finishIndex}
 
     }
     //вывод лабиринта
-    printMaze(jsonData) {
-        const gridSize = jsonData.width
-        const gridScale = (gridSize * 4) + 1
-        this.generateMaze()
-        const newJsonData = this.convertMaze(jsonData)
-        const tileData = newJsonData.layers.find(layer => layer.type === 'tilelayer').data
-        const writeStream = fs.createWriteStream('maze.txt', { flags: 'w' })
-        let mazeLine = ""
+    // printMaze(jsonData) {
+    //     const gridSize = jsonData.width
+    //     const gridScale = (gridSize * 4) + 1
+    //     this.generateMaze()
+    //     const newJsonData = this.convertMaze(jsonData)
+    //     const tileData = newJsonData.layers.find(layer => layer.type === 'tilelayer').data
+    //     const writeStream = fs.createWriteStream('maze.txt', { flags: 'w' })
+    //     let mazeLine = ""
 
-        for (let i = 0; i < tileData.length; i++){
-            if ((i + 1) % (gridScale) === 0){
-                mazeLine += tileData[i]
-                writeStream.write(mazeLine + '\n')
-                mazeLine = ""
-            } else {
-                mazeLine += tileData[i]
-            }
-        }
-        return newJsonData
-    }
+    //     for (let i = 0; i < tileData.length; i++){
+    //         if ((i + 1) % (gridScale) === 0){
+    //             mazeLine += tileData[i]
+    //             writeStream.write(mazeLine + '\n')
+    //             mazeLine = ""
+    //         } else {
+    //             mazeLine += tileData[i]
+    //         }
+    //     }
+    //     return newJsonData
+    // }
 
     // printTest(){
     //     const gridSize = 10
