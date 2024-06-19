@@ -21,4 +21,3 @@ fs.writeFileSync(PATH_TO_JSON_MAP, JSON.stringify(result.jsonData, null, 2))
 //индексы старта и финиша в массиве ground в слоях json`a
 console.log(result.startIndex)
 console.log(result.finishIndex)
-

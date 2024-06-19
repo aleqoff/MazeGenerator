@@ -92,9 +92,10 @@ export class MazeGenerator {
         const gridScale = (gridSize * 4) + 1
         const groundLayer = jsonData.layers[0]
         const wallLayer = jsonData.layers[1]
+        const exitsLayer = jsonData.layers[2]
         this.generateMaze()
         const wallTileData = new Array((gridSize*4 + 1) * (gridSize*4 + 1)).fill(0)
-
+        const exitsTileData = new Array((gridSize*4 + 1) * (gridSize*4 + 1)).fill(0)
         const possibleFinishIndexes = new Array
         const possibleStartIndexes = new Array
         const groundTileData = new Array((gridSize*4 + 1) * (gridSize*4 + 1)).fill(361)
@@ -150,7 +151,7 @@ export class MazeGenerator {
         const finishIndex = possibleFinishIndexes[Math.floor(Math.random() * possibleFinishIndexes.length)]
 
         groundTileData[startIndex] = 23
-        groundTileData[finishIndex] = 29
+        exitsTileData[finishIndex] = 29
         //меняет размеры карты будущего json`a
         jsonData.height = gridScale
         jsonData.width = gridScale
@@ -161,6 +162,7 @@ export class MazeGenerator {
         //меняет массивы слоёв будущего json`a
         wallLayer.data = wallTileData
         groundLayer.data = groundTileData
+        exitsLayer.data = exitsTileData
 
         return {jsonData, 
             startIndex, 
