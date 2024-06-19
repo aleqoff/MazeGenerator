@@ -155,10 +155,12 @@ export class MazeGenerator {
         //меняет размеры карты будущего json`a
         jsonData.height = gridScale
         jsonData.width = gridScale
-        jsonData.layers[0].height = gridScale
-        jsonData.layers[0].width = gridScale
-        jsonData.layers[1].height = gridScale
-        jsonData.layers[1].width = gridScale
+        groundLayer.height = gridScale
+        groundLayer.width = gridScale
+        wallLayer.height = gridScale
+        wallLayer.width = gridScale
+        exitsLayer.height = gridScale
+        exitsLayer.width = gridScale
         //меняет массивы слоёв будущего json`a
         wallLayer.data = wallTileData
         groundLayer.data = groundTileData

@@ -4,7 +4,7 @@ import fs from 'fs'
 const MAX_WEIGHT = 1000
 const PATH_TO_JSON_MAP = 'src/assets/map/map.json'
 //задаёт размер карты (в количестве комнат на одну сторону)
-const GRID_SIZE = 11
+const GRID_SIZE = 10
 
 //23 - start, 29 - finish
 
